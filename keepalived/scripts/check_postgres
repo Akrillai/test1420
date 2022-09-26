@@ -1,0 +1,9 @@
+#!/bin/bash
+# Run me on the Master
+ 
+master_ip="172.31.44.230"
+slave_ip="172.31.8.112"
+pg_ctl="/usr/lib/postgresql/12/bin/pg_ctl"
+pg_home="/var/lib/postgresql/12/main/"
+ 
+(echo >/dev/tcp/"$master_ip"/5432) &>/dev/null && echo "All is OK"; exit 0 || ssh postgres@"$slave_ip" "$pg_ctl -D $pg_home promote"; exit 1
